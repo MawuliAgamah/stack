@@ -4,12 +4,11 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich import print as rprint
+from pathlib import Path
 
-
-
+from stack.cli.generators.initialise import create_fastapi_project_vanilla_frontend 
 
 console = Console()
-
 
 def console_final_configguration():
     table = Table(title="Project Configuration")
@@ -99,18 +98,21 @@ def create_app():
         console.print("🚀 Setting up your project...", style="bold green")
 
         if backend.startswith("FastAPI"):
-            create_fastapi_project_vanilla_frontend(project_name, features)
+            create_fastapi_project_vanilla_frontend(project_name = project_name)
         
-
-
-
-
-
-
-
-
     else:
         console.print("Setup cancelled", style="bold red")
 
 
-
+from stack.cli.utils import utils
+@cli.command()
+@click.option('--path', default='.', help='Path to display structure for')
+def show_tree(path):
+    """Display the project directory structure as a tree"""
+    directory = Path(path).resolve()
+    if not directory.exists():
+        console.print(f"[bold red]Error: Path {directory} does not exist[/]")
+        return
+    console.print(f"\n[bold cyan]Project Structure for: {directory}[/]")
+    utils.display_tree_structure(directory)
+    console.print()  # Add newline at end

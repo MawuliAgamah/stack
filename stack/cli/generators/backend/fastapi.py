@@ -1,39 +1,68 @@
 from pathlib import Path
 from typing import List
+from rich.console import Console
+from stack.cli.templates.fast_api_template import FAST_API_TEMPLATES , DOCKERFILE_TEMPLATE
 
-FASTAPI_TEMPLATES = {
-"main.py": '''
-from fastapi import FastAPI
+console = Console()
 
-app = FastAPI()
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-''',
-    "requirements.txt": '''
-fastapi
-uvicorn
-python-dotenv
-'''
-}
-
-def create_fastapi_backend(project_dir: Path) -> None:(project_dir: Path, features: List[str]):
-    """Creates the FastAPI project structure"""
+def make_directories(project_dir):
+    project_dir = Path(project_dir)
     backend_dir = project_dir / "backend"
     backend_dir.mkdir(exist_ok=True)
-    
-    # Create FastAPI specific directories
-    (backend_dir / "app").mkdir(exist_ok=True)
-    (backend_dir / "api").mkdir(exist_ok=True)
-    (backend_dir / "core").mkdir(exist_ok=True)
-    (backend_dir / "models").mkdir(exist_ok=True)
-    
-    # Create initial files from templates
-    (backend_dir / "app" / "main.py").write_text(FASTAPI_TEMPLATES["main.py"])
-    (backend_dir / "requirements.txt").write_text(FASTAPI_TEMPLATES["requirements.txt"])
-    
     return backend_dir
+
+def create_fastapi_folders(directory):
+    folders = {
+        "app": directory / "app"
+        #"api": directory / "api",
+        #"core": directory / "core",
+        #"models": directory / "models"
+    }
+    
+    for name, folder in folders.items():
+        folder.mkdir(exist_ok=True)
+        console.print(f"✓ Created {name} directory at {folder}", style="bold green")
+
+
+def create_dockerfile(backend_dir: Path) -> None:
+    try:
+        dockerfile_path = backend_dir / "Dockerfile"
+        dockerfile_path.write_text(DOCKERFILE_TEMPLATE)
+        console.print(f"✓ Created Dockerfile at {dockerfile_path}", style="bold green")
+    except Exception as e:
+        console.print(f"[bold red] Error creating Dockerfile: {str(e)}",style="green")
+        raise
+
+def write_files_contents(backend_dir):
+    """write content to all files"""
+    main_file = backend_dir / "app" / "main.py"
+    init_file = backend_dir / "app" / "__init__.py"
+    main_file.write_text(FAST_API_TEMPLATES["main.py"])
+    init_file.write_text(" ")
+    console.print(f"✓ Created main.py at {main_file}", style="bold green")
+    create_dockerfile(backend_dir)
+
+
+
+
+def create_fastapi_backend(project_dir):
+    """Creates the FastAPI project structure"""
+    backend_dir = make_directories(project_dir=project_dir)
+    create_fastapi_folders(directory=backend_dir)
+    write_files_contents(backend_dir)
+
+
+    
+
+
+
+if __name__ == "__main__":
+    import os 
+    current_dir = "/Users/mawuliagamah/gitprojects/testing"
+    from rich.console import Console
+    console = Console()
+    create_fastapi_backend(current_dir)
 
 
 
