@@ -10,35 +10,24 @@ COPY ./app /code/app
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]"""
 
-FRONTEND_DOCKERFILE = """FROM node:18-alpine as build
+FRONTEND_DOCKERFILE = """FROM node:20-alpine 
 
 WORKDIR /app
 
-# Copy package files
+COPY package.json . 
+
+RUN  npm install 
+
 COPY package*.json ./
-
-# Install dependencies
-RUN npm ci
-
-# Copy project files
 COPY . .
 
-# Build the project
-RUN npm run build
-
-# Serve with nginx
-FROM nginx:alpine
-
-# Copy built assets from build stage
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Copy nginx config if you have custom configuration
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port 80
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]"""
+CMD ["npm","run","dev"]
+
+FROM node:18-alpine as build
+
+WORKDIR /app"""
 
 DOCKER_COMPOSE = """version: '3.8'
 services:
@@ -47,7 +36,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "8081:80"  
+      - "8081:80"  # Changed from 3001 to 8081
     depends_on:
       - backend
 
@@ -56,10 +45,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8080:80"  
+      - "8080:80"  # Changed from 3000 to 8080
     environment:
       - PORT=80
-      - HOST=0.0.0.0
+      - HOST=0.0.0.
 """
 
 

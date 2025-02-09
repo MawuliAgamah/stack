@@ -1,21 +1,13 @@
 from pathlib import Path
-
+import os 
 # cli/generators/frontend/vanilla.py
 
 import subprocess
-
-def set_up_tailwind():
-    pass
-
-import os 
 from rich.console import Console
 from stack.cli.templates.fast_api_template import FAST_API_TEMPLATES,FRONTEND_DOCKERFILE
+from stack.cli.templates.front_end_templates import TEMPLATES
+
 console = Console()
-
-
-
-
-
 
 def create_dockerfile(frontend_dir: Path) -> None:
     try:
@@ -26,7 +18,18 @@ def create_dockerfile(frontend_dir: Path) -> None:
         console.print(f"[bold red] Error creating Dockerfile: {str(e)}",style="green")
         raise
 
-import os 
+def set_up_tailwind(project_dir):
+    """Set up Tailwind CSS with Vite"""
+    try:
+        frontend_dir = project_dir / "frontend"
+        os.chdir(str(frontend_dir))
+        console.print("Installing Tailwind CSS...", style="yellow")
+        install_command = ["npm","install","-D",  "tailwindcss","postcss","autoprefixer"]
+        subprocess.run(install_command, check=True)
+        subprocess.run(["npx", "tailwindcss", "init", "-p"], check=True)
+    except subprocess.CalledProcessError as e:
+        console.print(f"Error creating frontend: {str(e)}", style="bold red")
+
 def create_vanilla_frontend(project_dir: Path) -> None:
     """Creates a Vanilla JS frontend using Vite"""
     try:
@@ -58,6 +61,13 @@ def create_vanilla_frontend(project_dir: Path) -> None:
         console.print("\nTo start development server:", style="yellow")
         console.print(f"cd {frontend_dir} && npm run dev", style="cyan")
         create_dockerfile(frontend_dir)
+        
+        from stack.cli.utils.utils import create_file
+        for k,v in TEMPLATES:
+            create_file(file_directory=frontend_dir,file_name=k,template=v)
+
+
+        
 
     except subprocess.CalledProcessError as e:
         console.print(f"Error creating frontend: {str(e)}", style="bold red")

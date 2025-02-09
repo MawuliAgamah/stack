@@ -51,7 +51,7 @@ def create_fastapi_project_vanilla_frontend(project_name: str) -> None:
     prune(current_dir)
 
 
-def configurition()
+
 
 
 if __name__=="___main__":
