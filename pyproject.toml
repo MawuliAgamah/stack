@@ -4,7 +4,22 @@ version = "0.1.0"
 description = "A python based framework for scaffolding full stack applications"
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = ['click']
+dependencies = [
+    "click",
+    "rich",
+    "questionary"
+]
+
+[project.optional-dependencies]  # Fixed the syntax error here
+test = ["pytest", "pytest-mock", "pytest-cov"]
 
 [project.scripts]
-stack = "stack.cli:main"
+stack = "stack.cli:cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
