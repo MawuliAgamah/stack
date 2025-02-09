@@ -41,22 +41,22 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]"""
 
 DOCKER_COMPOSE = """version: '3.8'
-
 services:
   frontend:
-    build: 
+    build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:80"  # Map to 3000 to avoid conflict with backend
+      - "8081:80"  
     depends_on:
       - backend
+
   backend:
-    build: 
+    build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "80:80"  # Your backend Dockerfile exposes 80
+      - "8080:80"  
     environment:
       - PORT=80
       - HOST=0.0.0.0

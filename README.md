@@ -1,6 +1,6 @@
 # Stack 🏗️
 
-A Python-based framework scaffolding tool to quickly set up modern web applications with FastAPI backend and Vanilla js frontend.
+A Python-based framework scaffolding tool to quickly set up modern web applications with FastAPI backend and JS frontend.
 
 ⚠️ **Note**: This project is still in development.
 

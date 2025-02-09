@@ -52,28 +52,28 @@ def create_app():
         choices=[
             "Vanilla JS",
             #"React - Popular UI library",
-            "None - Backend only",
+            #"None - Backend only",
         ]
     ).ask()
     
-    database = questionary.select(
-        "Select your database:",
-        choices=[
-            #"PostgreSQL",
-            #"MySQL",
-            "SQLite",
-        ]
-    ).ask()
+    #database = questionary.select(
+    #    "Select your database:",
+    #    choices=[
+    #        #"PostgreSQL",
+    #        #"MySQL",
+    #        #"SQLite",
+    #    ]
+    #).ask()
     
-    features = questionary.checkbox(
-        "Select additional features:",
-        choices=[
-            "Docker setup",
-            #"CI/CD configuration",
-            #"API documentation",
-            #"Authentication boilerplate",
-        ]
-    ).ask()
+    #features = questionary.checkbox(
+    #    "Select additional features:",
+    #    choices=[
+    #        "Docker setup",
+    #        #"CI/CD configuration",
+    #        #"API documentation",
+    #        #"Authentication boilerplate",
+    #    ]
+    #).ask()
     
     project_name = questionary.text(
         "What's your project name?",
@@ -87,8 +87,8 @@ def create_app():
     
     table.add_row("Backend", backend)
     table.add_row("Frontend", frontend)
-    table.add_row("Database", database)
-    table.add_row("Features", "\n".join(features))
+    #table.add_row("Database", database)
+    #table.add_row("Features", "\n".join(features))
     table.add_row("Project Name", project_name)
     
     console.print(table)
@@ -96,10 +96,13 @@ def create_app():
     # Confirm and proceed
     if questionary.confirm("Would you like to proceed with this setup?").ask():
         console.print("🚀 Setting up your project...", style="bold green")
-
-        if backend.startswith("FastAPI"):
+        if "FastAPI" in backend and "Vanilla JS" in frontend:
             create_fastapi_project_vanilla_frontend(project_name = project_name)
-        
+        else:
+            console.print("⚠️ This configurations is not yet supported.", style="bold yellow")
+            console.print("Currently available configurations:", style="blue")
+            console.print("- FastAPI + Vanilla JS", style="dim")
+            console.print("\nFeel free to check back later for more options!", style="green")
     else:
         console.print("Setup cancelled", style="bold red")
 

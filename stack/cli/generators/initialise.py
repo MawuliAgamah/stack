@@ -12,7 +12,8 @@ from stack.cli.templates.fast_api_template import FAST_API_TEMPLATES
 from rich.console import Console
 from rich.spinner import Spinner
 from stack.cli.templates.fast_api_template import CONFIGURATION_TEMPLATES
-
+from stack.cli.templates.fast_api_template import FAST_API_TEMPLATES , DOCKER_COMPOSE
+from stack.cli.utils.utils import prune
 
 def create_create_docker_compose_file(project_directory):
     pass
@@ -21,7 +22,8 @@ def update_pyproject(project_directory):
     pyproject = project_directory/"backend/pyproject.toml"
     pyproject.write_text(CONFIGURATION_TEMPLATES["pyproject.toml"])
 
-from stack.cli.templates.fast_api_template import FAST_API_TEMPLATES , DOCKER_COMPOSE
+
+
 def create_create_docker_compose_file(dir: Path) -> None:
     try:
         docker_compose_path = dir / "docker-compose.yml"
@@ -46,6 +48,10 @@ def create_fastapi_project_vanilla_frontend(project_name: str) -> None:
     fastapi.create_fastapi_backend(current_dir)
     vanilla.create_vanilla_frontend(current_dir)
     create_create_docker_compose_file(current_dir)
+    prune(current_dir)
+
+
+def configurition()
 
 
 if __name__=="___main__":

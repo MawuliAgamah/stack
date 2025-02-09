@@ -80,3 +80,18 @@ def setup_virtual_env_with_uv(project_dir) -> None:
         # Change back to original directory
         os.chdir(str(project_dir))
 
+def create_file(file_directory,file_name,template):
+    try:
+        file_path = file_directory / file_name
+        file_path.write_text(template)
+        console.print(f"✓ Created {file_name} at {file_path}",style="bold green")
+    except Exception as e:
+        console.print(f"[bold red] Error creating {file_name}: {str(e)}",style="green")
+        raise
+
+
+def prune(directory):
+    """Delete all files i dont need"""
+    hello_py_from_vb = directory / "backend/hello.py"
+    os.remove(hello_py_from_vb)
+    
