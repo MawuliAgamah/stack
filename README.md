@@ -1,13 +1,15 @@
-Stack
----
-A python based  framework scaffolding tool,
+# Stack 🏗️
 
+A Python-based framework scaffolding tool to quickly set up modern web applications with FastAPI backend and Vanilla js frontend.
 
+⚠️ **Note**: This project is still in development.
 
 ## Installation
 
-Choose your preferred installation method:
+Since this project is in development, you'll need to:
 
-### Option 1: Using pipx (Recommended)
+1. Clone the repository:
 ```bash
-pipx install stack
+git clone https://github.com/yourusername/stack.git
+cd stack
+pipx install .
