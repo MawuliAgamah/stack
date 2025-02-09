@@ -6,15 +6,15 @@ from rich.table import Table
 from rich import print as rprint
 
 
-console = Console()
 
+
+console = Console()
 
 
 def console_final_configguration():
     table = Table(title="Project Configuration")
     table.add_column("Setting", style="cyan")
     table.add_column("Value", style="green")
-    
     table.add_row("Backend", "Django - Full-featured web framework")
     table.add_row("Frontend", "React - Popular UI library")
     table.add_row("Database", "PostgreSQL")
@@ -35,7 +35,7 @@ def cli():
 import questionary
 
 @cli.command()
-def make_app():
+def create_app():
     """Create a new web application"""
     #console.print(Panel.fit("Welcome to Stack - Web Framework Generator",style="bold blue"))
 
@@ -43,16 +43,16 @@ def make_app():
     backend = questionary.select(
         "Which backend framework would you like to use?",
         choices=[
-            "Django - Full-featured web framework",
             "FastAPI - Modern, fast API framework",
+            #"Django - Full-featured web framework",
         ]
     ).ask()
     
     frontend = questionary.select(
         "Which frontend framework would you like to use?",
         choices=[
-            "React - Popular UI library",
-            "Vue - Progressive framework",
+            "Vanilla JS",
+            #"React - Popular UI library",
             "None - Backend only",
         ]
     ).ask()
@@ -60,8 +60,8 @@ def make_app():
     database = questionary.select(
         "Select your database:",
         choices=[
-            "PostgreSQL",
-            "MySQL",
+            #"PostgreSQL",
+            #"MySQL",
             "SQLite",
         ]
     ).ask()
@@ -70,9 +70,9 @@ def make_app():
         "Select additional features:",
         choices=[
             "Docker setup",
-            "CI/CD configuration",
-            "API documentation",
-            "Authentication boilerplate",
+            #"CI/CD configuration",
+            #"API documentation",
+            #"Authentication boilerplate",
         ]
     ).ask()
     
@@ -97,7 +97,18 @@ def make_app():
     # Confirm and proceed
     if questionary.confirm("Would you like to proceed with this setup?").ask():
         console.print("🚀 Setting up your project...", style="bold green")
-        # Add your project setup logic here
+
+        if backend.startswith("FastAPI"):
+            create_fastapi_project_vanilla_frontend(project_name, features)
+        
+
+
+
+
+
+
+
+
     else:
         console.print("Setup cancelled", style="bold red")
 

@@ -1,6 +1,6 @@
 import pytest
 from click.testing import CliRunner
-from stack.cli.main import cli, make_app
+from stack.cli.commands import cli, make_app
 
 def test_cli_exists():
     """Test that the CLI command group exists"""
@@ -35,3 +35,8 @@ def test_make_app_command(mocker):
     
     assert result.exit_code == 0
     assert 'Setting up your project' in result.output
+
+
+
+def test_create_fast_api_project():
+    """Test the make-app command with mocked questionary responses"""
