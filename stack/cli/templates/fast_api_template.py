@@ -30,15 +30,20 @@ FROM node:18-alpine as build
 WORKDIR /app"""
 
 DOCKER_COMPOSE = """version: '3.8'
+
 services:
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "8081:80"  # Changed from 3001 to 8081
+      - "3000:3000"  
     depends_on:
       - backend
+    environment:
+      - PORT=3000
+      - HOST=0.0.0.0
+
 
   backend:
     build:
@@ -48,7 +53,7 @@ services:
       - "8080:80"  # Changed from 3000 to 8080
     environment:
       - PORT=80
-      - HOST=0.0.0.
+      - HOST=0.0.0.0
 """
 
 

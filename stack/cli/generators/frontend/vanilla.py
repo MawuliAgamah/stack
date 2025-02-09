@@ -18,17 +18,34 @@ def create_dockerfile(frontend_dir: Path) -> None:
         console.print(f"[bold red] Error creating Dockerfile: {str(e)}",style="green")
         raise
 
-def set_up_tailwind(project_dir):
-    """Set up Tailwind CSS with Vite"""
-    try:
-        frontend_dir = project_dir / "frontend"
-        os.chdir(str(frontend_dir))
-        console.print("Installing Tailwind CSS...", style="yellow")
-        install_command = ["npm","install","-D",  "tailwindcss","postcss","autoprefixer"]
-        subprocess.run(install_command, check=True)
-        subprocess.run(["npx", "tailwindcss", "init", "-p"], check=True)
-    except subprocess.CalledProcessError as e:
-        console.print(f"Error creating frontend: {str(e)}", style="bold red")
+def setup_tailwind(project_dir):
+   try:
+       frontend_dir = project_dir / "frontend"
+       os.chdir(str(frontend_dir))
+       
+       console.print("\n[bold blue]Setting up Tailwind CSS...[/]")
+       
+       # Install Tailwind and dependencies
+       console.print("[yellow]Installing Tailwind CSS and dependencies...[/]")
+       install_command = ["npm", "install", "-D", "tailwindcss@3", "postcss", "autoprefixer"]
+       subprocess.run(install_command, check=True)
+       console.print("✓ Successfully installed Tailwind CSS and dependencies", style="bold green")
+       
+       # Initialize Tailwind configuration
+       console.print("[yellow]Initializing Tailwind configuration...[/]")
+       subprocess.run(["npx", "tailwindcss", "init", "-p"], check=True)
+       console.print("✓ Created Tailwind configuration files", style="bold green")
+       
+       console.print("\n[bold green]✓ Tailwind CSS setup complete![/]")
+       console.print("\nNext steps:", style="yellow")
+
+       
+   except subprocess.CalledProcessError as e:
+       console.print(f"\n[bold red]Error setting up Tailwind: {str(e)}[/]")
+       raise
+   except Exception as e:
+       console.print(f"\n[bold red]Unexpected error: {str(e)}[/]")
+       raise
 
 def create_vanilla_frontend(project_dir: Path) -> None:
     """Creates a Vanilla JS frontend using Vite"""
@@ -63,11 +80,17 @@ def create_vanilla_frontend(project_dir: Path) -> None:
         create_dockerfile(frontend_dir)
         
         from stack.cli.utils.utils import create_file
-        for k,v in TEMPLATES:
-            create_file(file_directory=frontend_dir,file_name=k,template=v)
+        for k,v in TEMPLATES.items():
+            if k == 'index.css':
+                css_dir = frontend_dir/ "src"
+                create_file(file_directory=css_dir,file_name=k,template=v)
+                #console.print(f"✓ Created {k} in src directory", style="green")
+            else:
+                create_file(file_directory=frontend_dir,file_name=k,template=v)
+                #console.print(f"✓ Created {k}", style="green")
+        console.print("\n[bold green]✓ All configuration files created successfully!")
 
 
-        
 
     except subprocess.CalledProcessError as e:
         console.print(f"Error creating frontend: {str(e)}", style="bold red")
