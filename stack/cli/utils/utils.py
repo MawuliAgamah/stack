@@ -6,7 +6,10 @@ from rich.panel import Panel
 from rich.table import Table
 from rich import print as rprint
 from pathlib import Path
+import subprocess
 console = Console()
+
+
 def display_tree_structure(backend_dir: Path, prefix: str = "", is_last: bool = True):
     """Recursively display directory tree structure"""
     # Print current directory/file
@@ -32,3 +35,48 @@ def display_tree_structure(backend_dir: Path, prefix: str = "", is_last: bool = 
         for i, path in enumerate(items):
             is_last_item = (i == len(items) - 1)
             display_tree_structure(path, new_prefix, is_last_item)
+
+import os
+def setup_virtual_env_with_uv(project_dir) -> None:
+    """Creates a virtual environment and installs packages using uv"""
+    backend_dir = project_dir / "backend"
+    venv_dir = backend_dir / ".venv"
+    try:
+        # Change into backend directory
+        os.chdir(str(backend_dir))
+        console.print(f"✓ Changed to directory: {backend_dir}")
+        
+        # Initialize uv in backend directory
+        console.print("Initializing uv...")
+        subprocess.run(["uv", "init"], check=True)
+        console.print("✓ Initialized uv package manager")
+        
+        # Create virtual environment
+        console.print("Creating virtual environment with uv...")
+        subprocess.run(["uv", "venv", str(venv_dir)], check=True)
+        console.print(f"✓ Created virtual environment at {venv_dir}")
+        
+        # Install packages from requirements.txt
+        requirements_file = backend_dir / "requirements.txt"
+        if requirements_file.exists():
+            console.print("Installing packages from requirements.txt...")
+            subprocess.run([
+                "uv",
+                "pip",
+                "install",
+                "-r",
+                str(requirements_file)
+            ], check=True)
+            console.print("✓ Successfully installed all packages")
+            
+        # Print activation instructions
+        console.print("\nTo activate the environment, run:", style="bold yellow")
+        console.print(f"cd {backend_dir} && source .venv/bin/activate", style="cyan")
+        
+    except subprocess.CalledProcessError as e:
+        console.print(f"Error: Failed to set up virtual environment: {e}")
+        raise
+    finally:
+        # Change back to original directory
+        os.chdir(str(project_dir))
+

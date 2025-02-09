@@ -55,8 +55,6 @@ def create_fastapi_backend(project_dir):
 
     
 
-
-
 if __name__ == "__main__":
     import os 
     current_dir = "/Users/mawuliagamah/gitprojects/testing"
