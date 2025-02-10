@@ -65,7 +65,7 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = ['fastapi','uvicorn','python-dotenv']
+dependencies = ['fastapi','uvicorn','python-dotenv','fastapi[standard]]
 """
 }
 
@@ -78,6 +78,7 @@ FAST_API_TEMPLATES = {
     python-dotenv
     SQLAlchemy
     pydantic
+    fastapi[standard]
 """,
     "main.py": """from fastapi import FastAPI
 
