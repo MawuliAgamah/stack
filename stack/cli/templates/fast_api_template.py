@@ -139,8 +139,13 @@ async def root():
     return {"message": "Hello World"}
 """
 
-FAST_API_TEMPLATYE2 = {
+FAST_API_FILES= {
     "requirements.txt":REQUIREMENTS_TXT_TEMPLATE,
     "pyproject.toml":PY_PROJECT__TOML_JINJA_TEMPLATES,
     "main.py": MAIN_PY_TEMPLATE
 }
+
+FAST_API_FOLDERS = {
+    'backend':
+    ['app','templates']
+  }

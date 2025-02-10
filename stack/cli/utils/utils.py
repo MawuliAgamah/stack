@@ -90,6 +90,12 @@ def create_file(file_directory,file_name,template):
         raise
 
 
+
+def router(backend_choices,frontend_choices):
+    application_configuration = "Null"
+    return application_configuration 
+
+
 def prune(directory):
     """Delete all files i dont need"""
     hello_py_from_vb = directory / "backend/hello.py"

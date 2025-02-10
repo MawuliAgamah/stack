@@ -35,3 +35,11 @@ stack create-app
 
 # View project structure
 stack show-tree [--path YOUR_PATH]
+
+
+
+
+
+### Routing 
+
+# When build with JS users can either choose between client side routing or server side routing 
