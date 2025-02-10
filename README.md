@@ -9,7 +9,7 @@ A Python-based framework scaffolding tool to quickly set up modern web applicati
 - Project structure visualization with `show-tree` command
 
 
-⚠️ **Note**: This project is still in development.
+⚠️ **This project is still in development.**
 
 ## Installation
 
