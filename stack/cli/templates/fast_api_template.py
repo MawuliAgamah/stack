@@ -54,12 +54,15 @@ services:
     environment:
       - PORT=80
       - HOST=0.0.0.0
+
 """
 
 
+########################################################################
+# FAST API BASE TEMPLATES 
+########################################################################
 
-CONFIGURATION_TEMPLATES = {
-    'pyproject.toml':"""[project]
+CONFIGURATION_TEMPLATES = {'pyproject.toml':"""[project]
 name = "backend"
 version = "0.1.0"
 description = "Add your description here"
@@ -90,5 +93,54 @@ async def root():
 
     "requirements.txt": """fastapi
 uvicorn
-python-dotenv"""
+python-dotenv""",
+'pyproject.toml':"""[project]
+name = "backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ['fastapi','uvicorn','python-dotenv','fastapi[standard]]
+"""
+}
+
+
+########################################################################
+# FAST API WITH ADDONS 
+########################################################################
+
+PY_PROJECT__TOML_JINJA_TEMPLATES = """[project]
+name = "backend"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = ['fastapi','uvicorn','python-dotenv','fastapi[standard]]
+"""
+
+REQUIREMENTS_TXT_TEMPLATE = """
+    fastapi
+    uvicorn
+    pydantic
+    SQLAlchemy
+    python-dotenv
+    SQLAlchemy
+    pydantic
+    fastapi[standard]
+"""
+
+MAIN_PY_TEMPLATE = """
+from fastapi import FastAPI
+from fastapi.templating import Jinta2Templates 
+app = FastAPI()
+templates = Jinta2Templates(directory="templates")
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+"""
+
+FAST_API_TEMPLATYE2 = {
+    "requirements.txt":REQUIREMENTS_TXT_TEMPLATE,
+    "pyproject.toml":PY_PROJECT__TOML_JINJA_TEMPLATES,
+    "main.py": MAIN_PY_TEMPLATE
 }
