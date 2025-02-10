@@ -94,4 +94,10 @@ def prune(directory):
     """Delete all files i dont need"""
     hello_py_from_vb = directory / "backend/hello.py"
     os.remove(hello_py_from_vb)
+    dir2 = directory / "frontend/src/counter.js"
+    os.remove(dir2)
+    dir2 = directory / "frontend/src/main.js"
+    os.remove(dir2)
+    dir2 = directory / "frontend/src/javascript.svg"
+    os.remove(dir2)
     
