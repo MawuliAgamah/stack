@@ -27,13 +27,7 @@ cd stack
 
 3. Install with pipx
 ```bash
-pipx install .
-```
-
-## Installation
-
-```bash
-pipx install .
+pipx install path/to/package/
 ```
 
 # Create new project
