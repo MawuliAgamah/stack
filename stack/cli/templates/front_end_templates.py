@@ -159,3 +159,88 @@ TEMPLATES = {
     'index.css':INDEX_CSS_CONFIG,
     'package.json':PACKAGE_JSON
 }
+
+
+
+################################################
+# client_side_routing 
+################################################
+
+
+INDEX_HTML = """
+
+
+
+
+"""
+
+ROUTER_JS = """
+const Router = {
+    init: () => {
+        console.log("Router: running");
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', e => {
+                e.preventDefault();
+                const url = e.target.getAttribute("href");
+                // Fix: Changed Router.nav.url to Router.nav(url)
+                Router.nav(url);
+            });
+        });
+        // Add popstate event listener to handle browser back/forward
+        window.addEventListener('popstate', e => {
+            if (e.state && e.state.router) {
+                Router.nav(window.location.pathname, false);
+            }
+        });
+    },
+    nav: async (route, addToHistory = true) => {
+        console.log("Navigation triggered to:", route);
+        if (addToHistory) {
+            history.pushState({ router: true }, null, route);
+        }
+        // Here you can add logic to update your page content based on the route
+        // For example:
+        switch (route) {
+            case '/home':
+                // Update content for home page
+                break;
+            case '/blog':
+                // add content here 
+                break;
+            case '/projects':
+                // Update content for projects page
+                break;
+            case '/contact':
+                // Update content for contact page
+                break;
+            default:
+                console.log('Route not found');
+        }
+    }
+};
+
+export default Router;
+"""
+
+MAIN_JS = """
+
+
+
+"""
+
+Frontend_files_to_delete = {
+   #'src':['main.js'],
+   'public':['vite.svg']
+}
+
+
+FRONTEND_FILES = {
+    'src':['router.js']
+}
+
+
+TEMPLATES_ROUTING = {
+  'main.js':MAIN_JS,
+  'router.js':ROUTER_JS,
+  'index.html':INDEX_HTML
+}

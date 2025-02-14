@@ -5,6 +5,8 @@ from rich.panel import Panel
 from rich.table import Table
 from rich import print as rprint
 from pathlib import Path
+import questionary
+from stack.cli.utils import utils
 
 from stack.cli.generators.initialise import create_fastapi_project_vanilla_frontend 
 
@@ -25,13 +27,16 @@ def console_final_configguration():
     ]))
     table.add_row("Project Name", "my-awesome-app")
 
-
 @click.group()
-def cli():
+@click.pass_context
+def cli(ctx):
     """Interactive web framework setup tool"""
-    console.print(Panel.fit("Welcome to Stack - Web Framework Generator",style="bold blue"))
+    # Only show welcome message if no subcommand is used
+    if ctx.invoked_subcommand is None:
+        console.print(Panel.fit("Welcome to Stack - Web Framework Generator", style="bold blue"))
+        # You might want to show help here too
+        click.echo(ctx.get_help())
 
-import questionary
 
 @cli.command()
 def create_app():
@@ -107,7 +112,47 @@ def create_app():
         console.print("Setup cancelled", style="bold red")
 
 
-from stack.cli.utils import utils
+@cli.command()
+@click.option('--frontend', type=click.Choice(['react', 'vanilla']), 
+              help='Create only the frontend framework')
+@click.option('--backend', type=click.Choice(['fastapi', 'django']),
+              help='Create only the backend framework')
+def create(frontend, backend):
+    """Create a new frontend or backend implementation"""
+    if not frontend and not backend:
+        console.print("Please specify either --frontend or --backend (or both)", style="bold red")
+        return
+
+    if frontend:
+        # Ask for frontend folder name with default value
+        frontend_folder = questionary.text(
+            "What would you like to name your frontend folder?",
+            default="frontend"
+        ).ask()
+
+        # Use 'frontend' if user just pressed enter (empty string)
+        frontend_folder = frontend_folder.strip() or "frontend"
+
+        if frontend == 'react':
+            if questionary.confirm("Would you like to proceed with React setup?").ask():
+                console.print(f"Creating React application in ./{frontend_folder}/", style="bold green")
+                # TODO: Add your React creation logic here
+                console.print("✅ React frontend created successfully", style="bold green")
+            else:
+                console.print("React setup cancelled", style="yellow")
+                
+        elif frontend == 'vanilla':
+            if questionary.confirm("Would you like to proceed with Vanilla JS setup?").ask():
+                console.print(f"Creating Vanilla frontend in ./{frontend_folder}/", style="bold green")
+                # TODO: Add your Vanilla JS creation logic here
+                console.print("✅ Vanilla frontend created successfully", style="bold green")
+            else:
+                console.print("Vanilla JS setup cancelled", style="yellow")
+
+    if backend:
+        # Your backend creation logic here
+        pass
+
 @cli.command()
 @click.option('--path', default='.', help='Path to display structure for')
 def show_tree(path):
@@ -119,3 +164,5 @@ def show_tree(path):
     console.print(f"\n[bold cyan]Project Structure for: {directory}[/]")
     utils.display_tree_structure(directory)
     console.print()  # Add newline at end
+
+

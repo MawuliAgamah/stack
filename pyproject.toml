@@ -14,7 +14,7 @@ dependencies = [
 test = ["pytest", "pytest-mock", "pytest-cov"]
 
 [project.scripts]
-stack = "stack.cli:cli"
+stack = "stack.cli.commands:cli"
 
 [build-system]
 requires = ["hatchling"]
