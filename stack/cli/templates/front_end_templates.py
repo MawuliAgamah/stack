@@ -16,7 +16,8 @@ TAILWIND_CONFIG_JS = """/** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{html,js,ts,jsx,tsx}",  
+    "./src/pages/**/*.{html,js}",        
   ],
   theme: {
     extend: {},
