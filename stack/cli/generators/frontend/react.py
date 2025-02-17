@@ -21,55 +21,66 @@ class React:
     def __set_up_tailwind(self):
         pass
 
-    def create_react_frontend(project_dir: Path) -> None:
-        """Creates a Vanilla JS frontend using Vite"""
+    def _install_additonal_dependencies(self):
+        console.print("\nInstalling additional React dependencies...", style="yellow")
+        subprocess.run([
+                "npm",
+                "install",
+                "react-router-dom",  # For routing
+                "axios",             # For API calls
+                "@tailwindcss/forms",# For form styling
+                "tailwindcss",       # For styling
+                "postcss",           # Required for Tailwind
+                "autoprefixer",      # Required for Tailwind
+            ], check=True)
+
+    def create_react_frontend(self,project_dir: Path,folder_name:str) -> None:
+        """Create a React JS FrontEnd using React"""
         try:
-            frontend_dir = project_dir / "frontend"
+            folder_name = str(folder_name)
+            project_path = Path(project_dir)
+            frontend_dir = project_dir + '/' + folder_name
+            os.mkdir(frontend_dir)
             
             # Change to project directory
             os.chdir(str(project_dir))
             
-            console.print("\n[bold blue]Creating Vanilla Frontend with Vite...[/]")
+            console.print("\n[bold blue]Creating react js Frontend with Vite...[/]")
             
             # Run npm create vite@latest
             subprocess.run([
                 "npm",
                 "create",
                 "vite@latest",
-                "frontend",  # Directory name
+                folder_name,  # Directory name
                 "--",       # Separator for template arguments
-                "--template", "vanilla"  # Specify vanilla template
+                "--template", "react"  # Specify vanilla template
             ], check=True)
             
             # Change into frontend directory
             os.chdir(str(frontend_dir))
-            
-            # Install dependencies
+
             console.print("\nInstalling dependencies...", style="yellow")
             subprocess.run(["npm", "install"], check=True)
+
+            self._install_additonal_dependencies()
             
-            console.print("\n[bold green]✓ Vanilla JS frontend created successfully!")
             console.print("\nTo start development server:", style="yellow")
             console.print(f"cd {frontend_dir} && npm run dev", style="cyan")
-            create_dockerfile(frontend_dir)
-            
-            from stack.cli.utils.utils import create_file
-            for k,v in TEMPLATES.items():
-                if k == 'index.css':
-                    css_dir = frontend_dir/ "src"
-                    create_file(file_directory=css_dir,file_name=k,template=v)
-                    #console.print(f"✓ Created {k} in src directory", style="green")
-                else:
-                    create_file(file_directory=frontend_dir,file_name=k,template=v)
-                    #console.print(f"✓ Created {k}", style="green")
-            console.print("\n[bold green]✓ All configuration files created successfully!")
 
-    def build_front_end(self):
-        pass 
+        except subprocess.CalledProcessError as e:
+                console.print(f"\n[bold red]Error creating React frontend: {str(e)}[/]")
+                raise
+        except Exception as e:
+                console.print(f"\n[bold red]Unexpected error: {str(e)}[/]")
+                raise
+
+    def build_front_end(self,project_dir,folder_name):
+        self.create_react_frontend(project_dir,folder_name)
 
 
 
 
-def create_react_frontend():
+def create_react_frontend(project_dir: Path,folder_name:str):
     react = React()
-    react.build_front_end()
+    react.build_front_end(project_dir,folder_name)

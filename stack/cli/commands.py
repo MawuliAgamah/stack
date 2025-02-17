@@ -9,7 +9,9 @@ import questionary
 from stack.cli.utils import utils
 
 from stack.cli.generators.initialise import create_fastapi_project_vanilla_frontend 
-from stack.cli.generators.initialise import create_react_frontend
+from stack.cli.generators import initialise
+import os 
+
 
 
 console = Console()
@@ -100,7 +102,6 @@ def create_app():
     
     console.print(table)
 
-    # Confirm and proceed
     if questionary.confirm("Would you like to proceed with this setup?").ask():
         console.print("🚀 Setting up your project...", style="bold green")
         if "FastAPI" in backend and "Vanilla JS" in frontend:
@@ -115,34 +116,23 @@ def create_app():
 
 
 @cli.command()
-@click.option('--frontend', type=click.Choice(['react', 'vanilla']), 
-              help='Create only the frontend framework')
-@click.option('--backend', type=click.Choice(['fastapi', 'django']),
-              help='Create only the backend framework')
+@click.option('--frontend', type=click.Choice(['react', 'vanilla']), help='Create only the frontend framework')
+@click.option('--backend', type=click.Choice(['fastapi', 'django']),help='Create only the backend framework')
 def create(frontend, backend):
     """Create a new frontend or backend implementation"""
     if not frontend and not backend:
         console.print("Please specify either --frontend or --backend (or both)", style="bold red")
         return
-
     if frontend:
         # Ask for frontend folder name with default value
-        frontend_folder = questionary.text(
-            "What would you like to name your frontend folder?",
-            default="frontend"
-        ).ask()
-
-        # Use 'frontend' if user just pressed enter (empty string)
-        frontend_folder = frontend_folder.strip() or "frontend"
-
+        user_inpt_frontend_folder = questionary.text("What would you like to name your frontend folder?",default="frontend").ask()
+        frontend_folder = user_inpt_frontend_folder.strip() or "frontend" # Use 'frontend' if user just pressed enter (empty string)
+        current_dir = os.getcwd() 
         if frontend == 'react':
             if questionary.confirm("Would you like to proceed with React setup?").ask():
-                console.print(f"Creating React application in ./{frontend_folder}/", style="bold green")
-                # TODO: Add your React creation logic here
-                console.print("✅ React frontend created successfully", style="bold green")
+                initialise.create_react_frontend(current_dir,frontend_folder)
             else:
                 console.print("React setup cancelled", style="yellow")
-                
         elif frontend == 'vanilla':
             if questionary.confirm("Would you like to proceed with Vanilla JS setup?").ask():
                 console.print(f"Creating Vanilla frontend in ./{frontend_folder}/", style="bold green")

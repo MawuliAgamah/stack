@@ -51,7 +51,10 @@ def create_fastapi_project_vanilla_frontend(project_name: str) -> None:
     prune(current_dir)
 
 
-def create_react_frontend()->
+def create_react_frontend(project_dir,folder_name):
+    from stack.cli.generators.frontend.react import create_react_frontend
+    create_react_frontend(project_dir,folder_name)
+    
 
 
 
