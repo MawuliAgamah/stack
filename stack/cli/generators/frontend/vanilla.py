@@ -4,8 +4,8 @@ import os
 
 import subprocess
 from rich.console import Console
-from stack.cli.templates.fast_api_template import FAST_API_TEMPLATES,FRONTEND_DOCKERFILE
-from stack.cli.templates.front_end_templates import TEMPLATES
+from stack.cli.templates.backend.fast_api_template import FAST_API_TEMPLATES,FRONTEND_DOCKERFILE
+from stack.cli.templates.vanilla_js.front_end_templates import TEMPLATES
 
 console = Console()
 
@@ -91,7 +91,6 @@ def create_vanilla_frontend(project_dir: Path) -> None:
         console.print("\n[bold green]✓ All configuration files created successfully!")
 
 
-
     except subprocess.CalledProcessError as e:
         console.print(f"Error creating frontend: {str(e)}", style="bold red")
         raise
@@ -99,6 +98,21 @@ def create_vanilla_frontend(project_dir: Path) -> None:
         # Return to original directory
         os.chdir(str(project_dir))
 
+
+class Vanilla:
+
+    def __init__(self):
+        pass
+
+    def _docker_file(self):
+        pass
+
+    def _set_up_tailwind(self):
+        pass
+
+
+    def build_frontend(self):
+        pass 
 
 
 if __name__ == "__main__":

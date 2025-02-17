@@ -8,11 +8,11 @@ console = Console()
 from stack.cli.generators.backend import fastapi
 from stack.cli.generators.frontend import vanilla
 from stack.cli.utils.utils import setup_virtual_env_with_uv
-from stack.cli.templates.fast_api_template import FAST_API_TEMPLATES
+from stack.cli.templates.backend.fast_api_template import FAST_API_TEMPLATES
 from rich.console import Console
 from rich.spinner import Spinner
-from stack.cli.templates.fast_api_template import CONFIGURATION_TEMPLATES
-from stack.cli.templates.fast_api_template import FAST_API_TEMPLATES , DOCKER_COMPOSE
+from stack.cli.templates.backend.fast_api_template import CONFIGURATION_TEMPLATES
+from stack.cli.templates.backend.fast_api_template import FAST_API_TEMPLATES , DOCKER_COMPOSE
 from stack.cli.utils.utils import prune
 
 def create_create_docker_compose_file(project_directory):
@@ -49,6 +49,9 @@ def create_fastapi_project_vanilla_frontend(project_name: str) -> None:
     vanilla.create_vanilla_frontend(current_dir)
     create_create_docker_compose_file(current_dir)
     prune(current_dir)
+
+
+def create_react_frontend()->
 
 
 

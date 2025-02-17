@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import List
 from rich.console import Console
-from stack.cli.templates.fast_api_template import FAST_API_TEMPLATES , DOCKERFILE_TEMPLATE
+from stack.cli.templates.backend.fast_api_template import FAST_API_TEMPLATES , DOCKERFILE_TEMPLATE
 
 console = Console()
 

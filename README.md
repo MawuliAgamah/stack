@@ -36,6 +36,19 @@ stack create-app
 # View project structure
 stack show-tree [--path YOUR_PATH]
 
+## Commands
+
+### Basic Commands
+
+```bash
+# Create a new web application interactively
+stack create-app
+
+# Show project directory structure
+stack show-tree [--path YOUR_PATH]
+
+# Create specific frontend or backend implementations
+stack create [--frontend <react|vanilla>] [--backend <fastapi|django>]
 
 
 

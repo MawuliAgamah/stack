@@ -1,7 +1,5 @@
 
 
-#
-
 VITE_CONFIG = """
 import { defineConfig } from 'vite'
 
@@ -12,6 +10,7 @@ export default defineConfig({
   }
 })
 """
+
 TAILWIND_CONFIG_JS = """/** @type {import('tailwindcss').Config} */
 export default {
   content: [

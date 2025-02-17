@@ -9,6 +9,8 @@ import questionary
 from stack.cli.utils import utils
 
 from stack.cli.generators.initialise import create_fastapi_project_vanilla_frontend 
+from stack.cli.generators.initialise import create_react_frontend
+
 
 console = Console()
 
