@@ -11,9 +11,15 @@ docker compose up build are slow
 add fast-api templating to allow the user to set up routes when using fast api
 
 
-# add docker file to react app creation 
-# delete all of the vite react files 
-# set up tailwind with vite
+# Add a django backend
+    # [] in django backend, set up routing and set up post and get requests in the base template 
+    # [] in django set up arrango group 
+
+# React JS SetUp
+- [] add docker file to react app creation 
+- [] delete all of the vite react files 
+- [] set up tailwind with vite
+    tailwindconfigfile [done]
 
 # utils.py 
 # [] fully implement routing function so it's easy to choose different configurations of an application 
@@ -21,14 +27,8 @@ add fast-api templating to allow the user to set up routes when using fast api
         stack create --backend django
         stack create --frontend react [complete]
 
-
-
-
-
         stack switch --frontend react
         stack switch --backend django
-
-
 
 
 # Test

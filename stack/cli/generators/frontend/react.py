@@ -21,6 +21,11 @@ class React:
     def __set_up_tailwind(self):
         pass
 
+    def delete_files(self):
+         folders_to_delete=['frontend/assets']
+         files_to_delete = ['assets/react.svg','public/vite.svg']
+         folders_to_make = ['']
+
     def _install_additonal_dependencies(self):
         console.print("\nInstalling additional React dependencies...", style="yellow")
         subprocess.run([
