@@ -13,6 +13,13 @@ from stack.cli.generators import initialise
 import os 
 
 
+from stack.cli.generators.initialise import (FullStackGenerator,DjangoGenerator)
+
+
+django = DjangoGenerator()
+generator = FullStackGenerator(django_generator = django)
+
+
 
 console = Console()
 
@@ -52,7 +59,7 @@ def create_app():
         "Which backend framework would you like to use?",
         choices=[
             "FastAPI - Modern, fast API framework",
-            #"Django - Full-featured web framework",
+            "Django - Full-featured web framework",
         ]
     ).ask()
     
@@ -106,6 +113,8 @@ def create_app():
         console.print("🚀 Setting up your project...", style="bold green")
         if "FastAPI" in backend and "Vanilla JS" in frontend:
             create_fastapi_project_vanilla_frontend(project_name = project_name)
+        elif "Django" in backend and "React" in frontend:
+            generator.create_django_react_app(project_name=project_name)
         else:
             console.print("⚠️ This configurations is not yet supported.", style="bold yellow")
             console.print("Currently available configurations:", style="blue")

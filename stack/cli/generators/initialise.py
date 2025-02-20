@@ -58,6 +58,57 @@ def create_react_frontend(project_dir,folder_name):
 
 
 
+class DjangoGenerator:
+    def __init__(self):
+        pass
+    
+    def _create_initial_folders(self):
+        """make the backend folder to store the django file"""
+        pass 
+
+    def _set_requirements_file(self):
+        pass 
+
+    def _install_dependencies(self):
+        subprocess.run([
+            "uv",
+            "pip",
+            "install",
+            "-r",  # Directory name
+            "requirements.txt",       # Separator for template arguments
+        ], check=True)
+    
+    def _django_admin_start_project(self,project_name):
+        project_name + 'be'
+        subprocess.run([
+            "django-admin",
+            "startproject",
+            project_name,
+            "."
+        ], check=True)
+
+    def create_django_backend(self,project_name):
+        self._create_initial_folders()
+        self._set_requirements_file()
+        self.install_dependcies()
+
+
+
+class FullStackGenerator:
+
+
+    def __init__(self,django_generator):
+        self.django = django_generator
+
+
+    def _set_up_virtual_env(self):
+        pass 
+
+    def create_django_react_app(project_name):
+
+
+
+
 
 
 if __name__=="___main__":

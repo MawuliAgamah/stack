@@ -8,10 +8,6 @@ class Django:
         pass 
 
 
-
-
-
-
 def set_up_django(project_dir,folder_name):
     django = Django()
     django.build(project_dir,folder_name)
